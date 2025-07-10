@@ -1,6 +1,6 @@
 // import { toastService } from "./toast.service";
 
-const prefix = `STORAGE_${process.env.REACT_APP_ENV}_`
+const prefix = `STORAGE_${import.meta.env.REACT_APP_ENV}_`
 
 const setValueInLocalStorage = (key: string, value: any): void => {
   try {

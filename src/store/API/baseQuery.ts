@@ -3,8 +3,10 @@ import { store } from "../store";
 import type { BaseQueryFn } from "@reduxjs/toolkit/query";
 import { storageService } from "@/storage.service";
 import { STORAGE_CONST } from "@/Constants/storage";
+import { BASE_URL } from "@/Constants/endpoints";
+
+console.log("BASE_URL inside: ", BASE_URL);
 // import { FOUNDATION_URL, PRIME_PLVC_URL, STORAGE_CONSTANTS } from "Constants";
-// import { storageService } from "./storage.service";
 
 export const getDefaultHeaders = (token?: string) => {
   const tempHeaders = {
@@ -61,9 +63,13 @@ export const axiosBaseQuery =
     unknown,
     unknown
   > =>
-  async ({ url, method, body, params, headers, responseType }) => {
-    const token = store.getState()?.user?.authenticatedUser?.authtoken;
-    // console.log('qwertyuioqwertyuiop', token)
+  async (args, api) => {
+    const { url, method, body, params, headers, responseType } = args;
+    const state = api.getState() as any;
+    const token = state?.user?.userData?.authToken;
+    console.log("state: ", state);
+    console.log("token: ", token);
+    // const token = store.getState()?.user?.userData?.authtoken;
     try {
       const result = await axios({
         url: baseUrl + url,
@@ -73,6 +79,7 @@ export const axiosBaseQuery =
         headers: headers ?? getDefaultHeaders(token),
         responseType,
       });
+      console.log("result baseQ: ", result);
       if (
         `${result.data.status}` !== "200" &&
         `${result.data.status}` !== "201" &&
@@ -87,6 +94,8 @@ export const axiosBaseQuery =
       return { data: result.data };
     } catch (axiosError: any) {
       if (axiosError?.response?.status === 401) {
+        // Unauthorised Case , so throw the user out to the Home Page and clear all the storages
+        // Clear the Store as well ? -> Rudransh
         localStorage.clear();
         sessionStorage.clear();
         storageService.removeValueFromLocalStorage(STORAGE_CONST.AUTH_USER);
@@ -95,7 +104,7 @@ export const axiosBaseQuery =
         //   title: 'Session time out',
         // })
         setTimeout(() => {
-          window.location.replace("/login");
+          window.location.replace("/");
         }, 500);
       }
       if (axios.isAxiosError(axiosError)) {
@@ -119,12 +128,8 @@ export const axiosBaseQuery =
     }
   };
 
-const foundationUrlQuery = axiosBaseQuery({
-  baseUrl: FOUNDATION_URL,
+const baseUrlQuery = axiosBaseQuery({
+  baseUrl: BASE_URL,
 });
 
-const primePlvcUrlQuery = axiosBaseQuery({
-  baseUrl: PRIME_PLVC_URL,
-});
-
-export { foundationUrlQuery, primePlvcUrlQuery };
+export { baseUrlQuery };

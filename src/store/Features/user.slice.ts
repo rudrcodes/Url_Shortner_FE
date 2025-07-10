@@ -15,7 +15,8 @@ const userSlice = createSlice({
   initialState,
   reducers: {
     updateUserData: (state, action) => {
-      state.userData = action.payload;
+      state.userData = action.payload.userData;
+      state.isLoggedIn = action.payload.isLoggedIn;
     },
   },
 });

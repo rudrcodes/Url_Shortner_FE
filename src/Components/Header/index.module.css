@@ -1,0 +1,57 @@
+.secondaryHead1 {
+    /* font-family: "Montserrat", sans-serif;
+  font-optical-sizing: auto; */
+
+    font-family: "Zen Dots", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+}
+
+.mainHead2 {
+    /* font-family: "WDXL Lubrifont JP N", sans-serif;
+    font-weight: 900;
+    font-optical-sizing: auto;
+    font-style: normal; */
+
+    /* font-family: "Montserrat", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 600; */
+
+    font-family: "Zen Dots", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+
+    /* font-family: "Bitcount Grid Double", system-ui;
+    font-optical-sizing: auto;
+    font-weight: 500;
+    font-style: normal;
+    font-variation-settings:
+        "slnt" 0,
+        "CRSV" 0.5,
+        "ELSH" 0,
+        "ELXP" 0; */
+}
+
+.secondaryHead2 {
+    /* font-family: "WDXL Lubrifont JP N", sans-serif;
+    font-weight: 200;
+    font-optical-sizing: auto;
+    font-style: normal; */
+
+    /* font-family: "Poppins", sans-serif;
+    font-weight: 700; */
+
+    font-family: "Zen Dots", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+
+    /* font-family: "Bitcount Grid Double", system-ui;
+    font-optical-sizing: auto;
+    font-weight: 200;
+    font-style: normal;
+    font-variation-settings:
+        "slnt" 0,
+        "CRSV" 0.5,
+        "ELSH" 0,
+        "ELXP" 0; */
+}

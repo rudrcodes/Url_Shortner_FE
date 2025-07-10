@@ -6,10 +6,14 @@ import { IoMdEye } from "react-icons/io";
 import { motion, useAnimation } from "motion/react";
 
 import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
+  useLoginApiMutation,
+  useSignUpApiMutation,
+} from "@/store/API/auth.api";
+import { useDispatch } from "react-redux";
+import { updateUserData } from "@/store/Features/user.slice";
+import { updateToast } from "@/store/Features/toast.slice";
+import { useDeviceType } from "@/hooks/useDeviceType";
+
 const AuthPage = () => {
   const [toLogin, setToLogin] = useState(false);
   const [seePassword, setSeePassword] = useState(false);
@@ -18,9 +22,72 @@ const AuthPage = () => {
     password: null,
   });
 
-  const handleSubmit = (e) => {
+  const dispatch = useDispatch();
+
+  const [login, { isLoading: isLoadingLogin, isError: isErrorLogin }] =
+    useLoginApiMutation();
+  const [signUp, { isLoading: isLoadingSignUp, isError: isErrorSignUp }] =
+    useSignUpApiMutation();
+
+  const handleSubmit = async (e: any) => {
     e.preventDefault();
     console.log("creds :", creds);
+
+    try {
+      if (!toLogin) {
+        //login
+        const res = await login({
+          username: creds.username,
+          password: creds.password,
+        });
+
+        if (!res?.data?.status?.toString().startsWith(2)) {
+          throw new Error("Login failed");
+        }
+
+        //store this user data in the redux store
+        dispatch(
+          updateToast({
+            message: "Login successful",
+            toastType: "success",
+            callToast: true,
+          })
+        );
+        dispatch(updateUserData({ userData: res?.data, isLoggedIn: true }));
+
+        console.log("login res: ", res);
+      } else {
+        //signUp
+        const res = await signUp({
+          username: creds.username,
+          password: creds.password,
+        });
+        console.log("signup res: ", res);
+
+        if (!res?.data?.status?.toString().startsWith(2) || res?.error) {
+          console.log("if erro: ", res?.error);
+          throw new Error("Signup failed");
+        }
+
+        dispatch(
+          updateToast({
+            message: "Signup successful",
+            toastType: "success",
+            callToast: true,
+          })
+        );
+      }
+    } catch (error) {
+      console.log("error: ", error);
+      dispatch(
+        updateToast({
+          message: `${!toLogin ? "Login" : "Signup"} failed`,
+          toastType: "error",
+          callToast: true,
+        })
+      );
+    }
+    //check if is login or signup
   };
 
   const handleChange = (label: string, e: any) => {
@@ -31,13 +98,19 @@ const AuthPage = () => {
       };
     });
   };
+
+  const deviceType = useDeviceType();
+  // console.log("deviceType: ", deviceType);
+
   return (
-    <div className="h-screen w-screen flex justify-center items-center bg-[#222]">
-      <div className="bg-[#222] flex justify-center items-center  w-[100%]">
-        <LoginLeftComponent text={toLogin ? "Login" : "SignUp"} />
+    <div className="h-screen w-screen flex justify-center items-center ">
+      <div className=" flex justify-center items-center  w-[100%]">
+        {deviceType !== "mobile" && (
+          <LoginLeftComponent text={toLogin ? "Login" : "SignUp"} />
+        )}
         <div className=" flex-1">
           <form
-            className="flex justify-center items-center flex-col   gap-3 text-[#fff]"
+            className="flex justify-center items-center flex-col   gap-3 text-[#fff] "
             style={{
               padding: "10px 20px",
             }}
@@ -77,29 +150,26 @@ const AuthPage = () => {
                   }}
                 />
               )}
-              {/* <Tooltip>
-                <TooltipTrigger>
-                  <IoAlertOutline />
-                </TooltipTrigger>
-                <TooltipContent>
-                  <ul>
-                    <li>1</li>
-                    <li>2</li>
-                    <li>3</li>
-                  </ul>
-                </TooltipContent>
-              </Tooltip> */}
             </div>
 
-            <Button
+            <motion.button
               type="submit"
               style={{
                 cursor: "pointer",
               }}
-              className="text-red-300 hover:underline"
+              className="text-red-400 hover:underline text-lg "
+              whileHover={{
+                scale: 1.2,
+                y: -10,
+              }}
+              whileTap={{
+                scale: 1.2,
+                y: -10,
+              }}
             >
-              Submit
-            </Button>
+              <br />
+              {!toLogin ? "Login" : "SignUp"}
+            </motion.button>
             <hr />
             <p>
               {toLogin ? "Already have an account?" : "Don't have an account?"}
@@ -156,11 +226,10 @@ const LoginLeftComponent = ({ text }: { text: string }) => {
         transition: { duration: 0.5, ease: "easeInOut" },
       });
     };
-
     animateBar();
   }, [text]);
 
-  const arr = new Array(10).fill(0);
+  const arr = new Array(7).fill(0);
 
   return (
     <div className="w-[50%]">
@@ -176,14 +245,16 @@ const LoginLeftComponent = ({ text }: { text: string }) => {
 
           {/* Text below the bar */}
           <motion.div
-            className={`text-6xl mt-3  z-[1] bg-red-400  ${
-              currentText.toLowerCase() === "login"
-                ? idx % 2 == 0
-                  ? "text-end"
-                  : "text-start"
-                : idx % 2 == 0
-                ? "text-start"
-                : "text-end"
+            className={`text-6xl mt-3  z-[1] bg-red-500  ${
+              idx % 2 == 0 ? "text-start" : "text-end"
+
+              // currentText.toLowerCase() === "login"
+              //   ? idx % 2 == 0
+              //     ? "text-end"
+              //     : "text-start"
+              //   : idx % 2 == 0
+              //   ? "text-start"
+              //   : "text-end"
             } px-2 rounded-r-lg`}
           >
             {/* <motion.div className="text-6xl my-2 relative z-[1] bg-red-400"> */}
@@ -193,7 +264,7 @@ const LoginLeftComponent = ({ text }: { text: string }) => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.3 }}
             >
-              {currentText}
+              {currentText?.toLowerCase() === "login" ? "Sign-Up" : "Login"}
             </motion.h1>
           </motion.div>
         </div>
