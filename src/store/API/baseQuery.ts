@@ -5,7 +5,6 @@ import { storageService } from "@/storage.service";
 import { STORAGE_CONST } from "@/Constants/storage";
 import { BASE_URL } from "@/Constants/endpoints";
 
-console.log("BASE_URL inside: ", BASE_URL);
 // import { FOUNDATION_URL, PRIME_PLVC_URL, STORAGE_CONSTANTS } from "Constants";
 
 export const getDefaultHeaders = (token?: string) => {
@@ -67,8 +66,6 @@ export const axiosBaseQuery =
     const { url, method, body, params, headers, responseType } = args;
     const state = api.getState() as any;
     const token = state?.user?.userData?.authToken;
-    console.log("state: ", state);
-    console.log("token: ", token);
     // const token = store.getState()?.user?.userData?.authtoken;
     try {
       const result = await axios({
@@ -79,7 +76,6 @@ export const axiosBaseQuery =
         headers: headers ?? getDefaultHeaders(token),
         responseType,
       });
-      console.log("result baseQ: ", result);
       if (
         `${result.data.status}` !== "200" &&
         `${result.data.status}` !== "201" &&

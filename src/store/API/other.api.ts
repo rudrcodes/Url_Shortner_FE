@@ -17,11 +17,20 @@ export const shortenUrlApi = createApi({
       query: (params: unknown) => ({
         url: API_ENDPOINTS.GET_ORIGINAL_URL,
         method: "GET",
-        params
+        params,
+      }),
+    }),
+    getAllLinks: builder.query<unknown, unknown>({
+      query: () => ({
+        url: API_ENDPOINTS.GET_ALL_LINKS,
+        method: "GET",
       }),
     }),
   }),
 });
 
-export const { useShortenUrlMutation, useLazyGetOriginalUrlQuery } =
-  shortenUrlApi;
+export const {
+  useShortenUrlMutation,
+  useLazyGetOriginalUrlQuery,
+  useLazyGetAllLinksQuery,
+} = shortenUrlApi;

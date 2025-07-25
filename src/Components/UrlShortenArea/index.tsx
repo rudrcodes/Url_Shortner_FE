@@ -17,7 +17,6 @@ const UrlShortenArea = () => {
 
   const customUrlValidation = (url: string) => {
     if (url) {
-      console.log("url: ", url);
       if (url.startsWith("http://") || url.startsWith("https://")) {
         setError(null);
       } else {
@@ -30,14 +29,12 @@ const UrlShortenArea = () => {
 
   const dispatch = useAppDispatch();
   const handleShortenUrl = async (url: string | null) => {
-    console.log("url: ", url);
     // - call the api to shorten the url
     // - save it in the database
     // - give them the option to copy the short url
     // - give them the option to delete the short url
     // - give them the option to edit the short url
     // - give them the option to view the short url
-
     if (error || !url) {
       dispatch(
         updateToast({
@@ -54,14 +51,11 @@ const UrlShortenArea = () => {
         url,
       });
 
-      console.log("handleShortenUrl res: ", res);
-
       if (res?.data?.status !== 200) {
         throw new Error("Error in shortening url");
       }
 
       setHashedUrl(res?.data?.data);
-      console.log("res: ", res);
 
       dispatch(updateConfetti(true));
 
@@ -73,7 +67,8 @@ const UrlShortenArea = () => {
         })
       );
     } catch (error) {
-      console.log(error);
+      console.log("error: ", error);
+
       dispatch(
         updateToast({
           message: "Error in shortening url",
@@ -110,13 +105,13 @@ const UrlShortenArea = () => {
                 scale: "0.5",
                 transition: { duration: 300, delay: 300, ease: "easeInOut" },
               }}
-              className=" px-3 py-1 rounded-sm cursor-pointer hover:scale-125 duration-200 delay-100 ease-in-out  "
+              className=" px-3 py-1 rounded-sm cursor-pointer hover:scale-200 duration-200 delay-100 ease-in-out  "
               onClick={() => {
                 handleShortenUrl(url);
               }}
             >
-              <BsMagic size="14px" color="red" />
-              {/* shorten it */}
+              <BsMagic size="14px" className="text-red-500 hover:text-amber-400"/>
+              {/* shorten it  Shorten it Shorten It*/}
             </motion.button>
           </div>
           {error && <p className="text-red-500 text-sm">{error}</p>}

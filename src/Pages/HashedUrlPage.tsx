@@ -9,6 +9,7 @@ const HashedUrlPage = () => {
     useLazyGetOriginalUrlQuery();
   //Imitating the DB here
   const getUrlFromDB = async (hashedUrl: string) => {
+    // search for this link in the users db and then update the link document
     if (hashedUrl === "") {
       return null;
     }
@@ -18,7 +19,6 @@ const HashedUrlPage = () => {
       const res: any = await getUrlFromDBFunc({
         hashedUrl,
       });
-      console.log("res: ", res);
 
       if (res?.data?.status !== 200) {
         throw new Error("Error in fetching the url");

@@ -2,7 +2,9 @@ import { useNavigate } from "react-router-dom";
 import style from "./navbar.module.css";
 import { motion } from "motion/react";
 import { useState } from "react";
-import { useAppSelector } from "@/utils";
+import { useAppDispatch, useAppSelector } from "@/utils";
+import { resetUserData } from "@/store/Features/user.slice";
+import { updateToast } from "@/store/Features/toast.slice";
 
 const Navbar = () => {
   const navList = [
@@ -10,15 +12,40 @@ const Navbar = () => {
       label: "Login/SignUp",
       navigateTo: "/auth",
       isLoggedIn: false,
+      function: null,
+    },
+    {
+      label: "Logout",
+      navigateTo: null,
+      isLoggedIn: true,
+      function: handleLogout,
     },
     {
       label: "Profile",
       navigateTo: "/profile",
       isLoggedIn: true,
+      function: null,
     },
   ];
+  const dispatch = useAppDispatch();
 
+  function handleLogout() {
+    console.log("handleLogout on the FE only");
+    //empty the localstorage and the redux store and go to the login page back
+    dispatch(resetUserData());
+    localStorage.clear();
+    dispatch(
+      updateToast({
+        message: "Successfully logged out",
+        callToast: true,
+        toastType: "success",
+      })
+    );
+
+    navigate("/");
+  }
   const { isLoggedIn } = useAppSelector((state) => state.user);
+  console.log("isLoggedIn: ", isLoggedIn);
 
   const [hovered, setHovered] = useState(false);
   const [indexHovered, setIndexHovered] = useState(0);
@@ -44,40 +71,47 @@ const Navbar = () => {
       </motion.div>
       <div className="flex justify-around items-center  gap-10">
         {navList.map((item, index) => {
-          return (
-            <motion.div
-              key={item.label}
-              onClick={() => {
-                navigate(item.navigateTo);
-              }}
-              // style={{
-              //   cursor: "pointer",
-              // }}
-              // className="text-[#fff] border-none   hover:text-shadow-white"
-              whileHover={{
-                scale: 1.2,
-              }}
-              whileTap={{
-                scale: 0.9,
-              }}
-              onMouseEnter={() => {
-                setHovered(true);
-                setIndexHovered(index);
-              }}
-              onMouseLeave={() => setHovered(false)}
-              style={{
-                transition: "all 0.2s ease",
-                // cursor: "pointer",
-                textShadow:
-                  hovered && index === indexHovered
-                    ? "3px 3px 5px rgba(255,255,255,1)"
-                    : "none",
-                color: "#fff",
-              }}
-            >
-              {item.label}
-            </motion.div>
-          );
+          if (item.isLoggedIn === isLoggedIn)
+            return (
+              <motion.div
+                key={item.label}
+                onClick={() => {
+                  if (item.navigateTo) {
+                    navigate(item.navigateTo);
+                  }
+
+                  if (item.function) {
+                    item.function();
+                  }
+                }}
+                // style={{
+                //   cursor: "pointer",
+                // }}
+                // className="text-[#fff] border-none   hover:text-shadow-white"
+                whileHover={{
+                  scale: 1.2,
+                }}
+                whileTap={{
+                  scale: 0.9,
+                }}
+                onMouseEnter={() => {
+                  setHovered(true);
+                  setIndexHovered(index);
+                }}
+                onMouseLeave={() => setHovered(false)}
+                style={{
+                  transition: "all 0.2s ease",
+                  // cursor: "pointer",
+                  textShadow:
+                    hovered && index === indexHovered
+                      ? "3px 3px 5px rgba(255,255,255,1)"
+                      : "none",
+                  color: "#fff",
+                }}
+              >
+                {item.label}
+              </motion.div>
+            );
         })}
         {/* <Login />
         <SignUp /> */}

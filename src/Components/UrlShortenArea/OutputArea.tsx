@@ -51,13 +51,13 @@ const OutputArea = (props: IOutputArea) => {
           //   scale: "2",
           //   transition: { duration: 200, delay: 150, ease: "easeIn" },
           // }}
-          className=" px-3 py-1 rounded-sm cursor-pointer hover:scale-125 duration-200 delay-100 ease-in-out "
+          className=" px-3 py-1 rounded-sm cursor-pointer hover:scale-200  duration-200 delay-100 ease-in-out "
           onClick={() => {
             // handleShortenUrl(url);
             copyText();
           }}
         >
-          <BsCopy size="14px" color="red" />
+          <BsCopy size="14px"  className="text-red-500 hover:text-amber-400" />
         </motion.button>
       </div>
     </div>

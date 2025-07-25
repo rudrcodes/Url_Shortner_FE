@@ -13,6 +13,7 @@ import { useDispatch } from "react-redux";
 import { updateUserData } from "@/store/Features/user.slice";
 import { updateToast } from "@/store/Features/toast.slice";
 import { useDeviceType } from "@/hooks/useDeviceType";
+import { useNavigate } from "react-router-dom";
 
 const AuthPage = () => {
   const [toLogin, setToLogin] = useState(false);
@@ -23,6 +24,7 @@ const AuthPage = () => {
   });
 
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const [login, { isLoading: isLoadingLogin, isError: isErrorLogin }] =
     useLoginApiMutation();
@@ -31,18 +33,20 @@ const AuthPage = () => {
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
-    console.log("creds :", creds);
 
     try {
+      if (!creds?.password || !creds?.username) {
+        throw new Error("Please enter creds");
+      }
       if (!toLogin) {
         //login
-        const res = await login({
+        const res: any = await login({
           username: creds.username,
           password: creds.password,
         });
 
         if (!res?.data?.status?.toString().startsWith(2)) {
-          throw new Error("Login failed");
+          throw new Error(res?.error?.data?.message ?? "Login failed");
         }
 
         //store this user data in the redux store
@@ -54,19 +58,15 @@ const AuthPage = () => {
           })
         );
         dispatch(updateUserData({ userData: res?.data, isLoggedIn: true }));
-
-        console.log("login res: ", res);
       } else {
         //signUp
         const res = await signUp({
           username: creds.username,
           password: creds.password,
         });
-        console.log("signup res: ", res);
 
         if (!res?.data?.status?.toString().startsWith(2) || res?.error) {
-          console.log("if erro: ", res?.error);
-          throw new Error("Signup failed");
+          throw new Error(res?.error?.message ?? "Signup failed");
         }
 
         dispatch(
@@ -77,11 +77,14 @@ const AuthPage = () => {
           })
         );
       }
-    } catch (error) {
-      console.log("error: ", error);
+
+      //navigate to the profile page
+      navigate("/profile", { replace: true });
+    } catch (error: any) {
       dispatch(
         updateToast({
-          message: `${!toLogin ? "Login" : "Signup"} failed`,
+          message: error?.message,
+          // message: `${!toLogin ? "Login" : "Signup"} failed`,
           toastType: "error",
           callToast: true,
         })
@@ -100,7 +103,6 @@ const AuthPage = () => {
   };
 
   const deviceType = useDeviceType();
-  // console.log("deviceType: ", deviceType);
 
   return (
     <div className="h-screen w-screen flex justify-center items-center ">
@@ -119,16 +121,16 @@ const AuthPage = () => {
             <input
               placeholder="Enter Username/Email"
               type="text"
-              className=" w-[300px]  p-3 rounded-sm text-sm text-[#000] bg-[#fff]"
+              className=" w-[300px]  p-3 rounded-sm text-sm text-[#000] bg-[#fff] focus:bg-[#fff]"
               onChange={(e) => {
                 handleChange("username", e);
               }}
             />
-            <div className="flex justify-between items-center  bg-[#fff]  w-[300px] gap-0.5 rounded-sm p-3">
+            <div className="flex justify-between items-center  bg-[#fff]  w-[300px] gap-0.5 rounded-sm p-3 focus:bg-[#fff]">
               <input
                 placeholder="Enter Password"
                 type={!seePassword ? "password" : "text"}
-                className="    flex-1 text-sm text-[#000]"
+                className="    flex-1 text-sm text-[#000] focus:bg-[#fff]"
                 onChange={(e) => {
                   handleChange("password", e);
                 }}

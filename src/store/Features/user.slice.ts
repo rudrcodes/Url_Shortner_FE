@@ -18,6 +18,10 @@ const userSlice = createSlice({
       state.userData = action.payload.userData;
       state.isLoggedIn = action.payload.isLoggedIn;
     },
+    resetUserData: (state) => {
+      state.userData = initialState.userData;
+      state.isLoggedIn = initialState.isLoggedIn;
+    },
   },
 });
 //export the reducer itself
@@ -25,6 +29,6 @@ const userSlice = createSlice({
 const { reducer } = userSlice;
 
 //export actions
-const { updateUserData } = userSlice.actions;
+const { updateUserData, resetUserData } = userSlice.actions;
 
-export { reducer as userSliceReducer, updateUserData };
+export { reducer as userSliceReducer, updateUserData, resetUserData };

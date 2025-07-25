@@ -38,18 +38,18 @@ const Header = () => {
 
       {/* Text Content */}
       <motion.h1
-        className={`z-10 ${style.mainHead2} text-[#FFFEFE] lg:text-8xl md:text-4xl text-2xl font-bold`}
+        className={`z-10 ${style.mainHead2} text-[#fefae0] lg:text-8xl md:text-6xl text-4xl font-bold`}
       >
-        Size matters
+        Size Matters
       </motion.h1>
 
       <div
-        className={`z-10 ${style.secondaryHead1} text-[#FFFEFE] text-2xl flex gap-2`}
+        className={`z-10 ${style.secondaryHead1} text-[#FFFEFE]  flex gap-2`}
       >
         {/* Tiny Links */}
         <div className="relative inline-block overflow-hidden">
           {/* Text */}
-          <motion.p className="relative z-10 text-2xl text-white font-semibold">
+          <motion.p className="relative z-10 lg:text-2xl md:text-xl text-md text-white font-semibold">
             Tiny Links
           </motion.p>
 
@@ -75,7 +75,7 @@ const Header = () => {
         {/* Mighty Impact */}
         <div className="relative inline-block overflow-hidden">
           {/* Text */}
-          <motion.p className="relative z-10 text-2xl text-white font-semibold">
+          <motion.p className="relative z-10 lg:text-2xl md:text-xl text-md text-white font-semibold">
             Mighty Impact
           </motion.p>
 

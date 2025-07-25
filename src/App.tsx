@@ -16,7 +16,7 @@ function App() {
   const showConfetti = useAppSelector((state) => state?.toast.showConfetti);
   const dispatch = useAppDispatch();
   useEffect(() => {
-    console.log("showConfetti:", showConfetti);
+
     if (showConfetti) {
       //timer chlao and then utne timer ke baad showConfetti false krdo
 

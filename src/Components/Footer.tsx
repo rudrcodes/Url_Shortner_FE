@@ -13,7 +13,7 @@ const Footer = () => {
         © 2025 | Rudransh Aggarwal
       </motion.div>
       <motion.div
-        className={`${style.logo} text-sm font-bold cursor-pointer text-[#f1faee]`}
+        className={`${style.logo} text-sm font-bold cursor-pointer text-[#f1faee] hover:underline`}
         onClick={() => {
           window.open(
             "https://rudranshaggarwal.netlify.app/",
@@ -23,9 +23,6 @@ const Footer = () => {
         }}
         whileTap={{
           scale: 0.8,
-        }}
-        whileHover={{
-          textDecoration: "underline",
         }}
       >
         Visit Author
