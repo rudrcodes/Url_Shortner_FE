@@ -67,7 +67,9 @@ const Navbar = () => {
           scale: 1.2,
         }}
       >
-        MiniMe
+        nlnk
+        {/* Tinyx */}
+        {/* MiniMe */}
       </motion.div>
       <div className="flex justify-around items-center  gap-10">
         {navList.map((item, index) => {

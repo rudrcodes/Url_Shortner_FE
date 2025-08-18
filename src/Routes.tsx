@@ -21,7 +21,7 @@ export const AppRoutes = () => {
           <Route path="" element={<ProfilePage />} />
         </Route>
 
-        <Route path="/redirectTo/:hashedUrl" element={<HashedUrlPage />} />
+        <Route path="/to/:hashedUrl" element={<HashedUrlPage />} />
         <Route path="*" element={<ErrorPage />} />
       </Routes>
     </>
