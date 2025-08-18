@@ -1,5 +1,4 @@
 import axios, { AxiosError, type AxiosRequestConfig } from "axios";
-import { store } from "../store";
 import type { BaseQueryFn } from "@reduxjs/toolkit/query";
 import { storageService } from "@/storage.service";
 import { STORAGE_CONST } from "@/Constants/storage";

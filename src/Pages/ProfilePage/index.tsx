@@ -9,21 +9,16 @@ const ProfilePage = () => {
   const [allLinks, setAllLinks] = useState<any>([]);
   const dispatch = useAppDispatch();
   console.log("userData: ", userData);
-  const [defaultSearch, setDefaultSearch] = useState("");
+  // const [defaultSearch, setDefaultSearch] = useState("");
 
-  const [getAllLinks, { isLoading, isFetching, isSuccess }] =
-    useLazyGetAllLinksQuery();
+  const [getAllLinks] = useLazyGetAllLinksQuery();
 
   const fetchAllLinks = async () => {
     try {
-      const res: {
-        data: any;
-        message: string;
-        status: number;
-      } = await getAllLinks({}).unwrap();
+      const res: any = await getAllLinks({}).unwrap();
       console.log("fetchAllLinks res:", res);
       setAllLinks(res?.data ?? []);
-    } catch (error) {
+    } catch (error: any) {
       dispatch(
         updateToast({
           callToast: true,
@@ -48,16 +43,16 @@ const ProfilePage = () => {
         }
   */
 
-  const searchFunc = (text: string) => {
-    console.log(text);
+  // const searchFunc = (text: string) => {
+  //   console.log(text);
 
-    //apply debouncing here , that is will not call the api on each input , only once after the last input
-  };
+  //   //apply debouncing here , that is will not call the api on each input , only once after the last input
+  // };
 
   const username = userData?.userData?.data?.username?.toUpperCase();
   const userInitials = userData?.userData?.data?.username
     ?.split(" ")
-    ?.map((word) => {
+    ?.map((word: any) => {
       return word.slice(0, 1)?.toUpperCase();
     })
     ?.join(" ");

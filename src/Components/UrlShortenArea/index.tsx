@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useState } from "react";
 import { motion } from "motion/react";
 import OutputArea from "./OutputArea";
 import { useShortenUrlMutation } from "@/store/API/other.api";
@@ -11,8 +11,7 @@ const UrlShortenArea = () => {
   const [error, setError] = useState<string | null>(null);
   const [isFocus, setIsFocus] = useState<boolean>(false);
 
-  const [shortenUrl, { isLoading, isError, isFetching, isSuccess }] =
-    useShortenUrlMutation();
+  const [shortenUrl] = useShortenUrlMutation();
 
   const [hashedUrl, setHashedUrl] = useState<string | null>(null);
 
@@ -68,7 +67,7 @@ const UrlShortenArea = () => {
     }
 
     try {
-      const res = await shortenUrl({
+      const res:any = await shortenUrl({
         url,
       });
 

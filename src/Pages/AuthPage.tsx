@@ -1,5 +1,4 @@
-import { Button } from "@/Components/ui/button";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 import { IoMdEyeOff } from "react-icons/io";
 import { IoMdEye } from "react-icons/io";
@@ -27,10 +26,8 @@ const AuthPage = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const [login, { isLoading: isLoadingLogin, isError: isErrorLogin }] =
-    useLoginApiMutation();
-  const [signUp, { isLoading: isLoadingSignUp, isError: isErrorSignUp }] =
-    useSignUpApiMutation();
+  const [login] = useLoginApiMutation();
+  const [signUp] = useSignUpApiMutation();
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
