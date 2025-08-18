@@ -1,6 +1,5 @@
 import Header from "./Header/Header";
 import UrlShortenArea from "./UrlShortenArea";
-import { motion } from "motion/react";
 
 const HomePage = () => {
   return (

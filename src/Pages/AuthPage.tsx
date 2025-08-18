@@ -14,6 +14,7 @@ import { updateUserData } from "@/store/Features/user.slice";
 import { updateToast } from "@/store/Features/toast.slice";
 import { useDeviceType } from "@/hooks/useDeviceType";
 import { useNavigate } from "react-router-dom";
+import { Meteors } from "@/Components/ui/meteors";
 
 const AuthPage = () => {
   const [toLogin, setToLogin] = useState(false);
@@ -105,7 +106,10 @@ const AuthPage = () => {
   const deviceType = useDeviceType();
 
   return (
-    <div className="h-screen w-screen flex justify-center items-center ">
+    <div className="relative z-10 h-screen w-screen flex justify-center items-center ">
+      <div className="fixed inset-0 -z-10 pointer-events-none">
+        <Meteors />
+      </div>
       <div className=" flex justify-center items-center  w-[100%]">
         {deviceType !== "mobile" && (
           <LoginLeftComponent text={toLogin ? "Login" : "SignUp"} />

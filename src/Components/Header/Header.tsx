@@ -1,8 +1,9 @@
+import { Meteors } from "../ui/meteors";
 import style from "./index.module.css";
 import { motion } from "motion/react";
 const Header = () => {
   return (
-    <section className="  flex justify-center items-center flex-col gap-3  h-[100%]  ">
+    <section className="relative z-10 flex justify-center items-center flex-col gap-3 h-[100%]">
       {/* <section className="relative  flex justify-end items-center flex-col gap-3  h-full "> */}
       {/* Motion Div behind */}
       {/* <motion.div
@@ -35,6 +36,10 @@ const Header = () => {
           className=" z-0 w-[30px] h-[30px] bg-[#121212] rounded-full "
         ></motion.div>
       </motion.div> */}
+
+      <div className="fixed inset-0 -z-10 pointer-events-none">
+        <Meteors />
+      </div>
 
       {/* Text Content */}
       <motion.h1

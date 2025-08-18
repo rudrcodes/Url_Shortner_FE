@@ -36,16 +36,19 @@ const OutputArea = (props: IOutputArea) => {
   return (
     <div className="flex flex-col  gap-3 w-[100%]    ">
       <div className="  w-[full] flex justify-center items-center  ">
-        <div
+        <input
           // value={hashedUrl ?? ""}
-          // placeholder="output here..."
+          placeholder="Get Shortened URL here..."
           style={{
-            boxShadow: "4px 2px 20px 1px rgba(0,0,0,0.3)",
+            boxShadow: "4px 2px 12px 1px rgba(255,255,255,0.3)",
           }}
-          className="text-sm px-5 py-3 rounded-md w-[60%] bg-inherit border-[#f1faee] border-[1px]  focus:shadow-3xl text-start"
-        >
-          {hashedUrl ? hashedUrl : "Output here..."}
-        </div>
+          value={hashedUrl ? hashedUrl : ""}
+          className={` ${
+            hashedUrl ? "text-#fff" : "text-[#e5e5e5b7]"
+          } text-sm px-5 py-3 rounded-md w-[60%] bg-inherit border-[#f1faee] border-[1px]   focus:shadow-3xl text-start overflow-y-auto`}
+        />
+        {/* {hashedUrl ? hashedUrl : "Get Shortened URL here..."} */}
+        {/* </div> */}
         <motion.button
           // whileHover={{
           //   scale: "2",
@@ -57,7 +60,7 @@ const OutputArea = (props: IOutputArea) => {
             copyText();
           }}
         >
-          <BsCopy size="14px"  className="text-red-500 hover:text-amber-400" />
+          <BsCopy size="14px" className="text-red-500 hover:text-amber-400" />
         </motion.button>
       </div>
     </div>

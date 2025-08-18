@@ -1,3 +1,4 @@
+import { CustomLoader } from "@/Components/CustomLoader";
 import { useLazyGetOriginalUrlQuery } from "@/store/API/other.api";
 import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
@@ -80,14 +81,27 @@ const HashedUrlPage = () => {
 
   //will fetch the urlhash from the location (url) here and then fill redirect it from here to that original URL
   return (
-    <div>
-      {isLoading && <div>Loading...</div>}
-      {isError && <div>Error in fetching the url</div>}
+    <div className="text-white h-screen flex justify-center items-center">
+      {isLoading && <CustomLoader />}
+      {isError && (
+        <div>
+          <p className="lg:text-4xl md:text-2xl text-xl">
+            Error in fetching the url
+          </p>
+        </div>
+      )}
 
-      {redirectUrlExists ? (
-        <div>Redirecting......</div>
+      {!isLoading && redirectUrlExists && (
+        <div>
+          <p className="lg:text-4xl md:text-2xl text-xl">Redirecting......</p>
+        </div>
+      )}
+      {!isError && !isLoading && !urlToRedirect ? (
+        <div>
+          <p className="lg:text-4xl md:text-2xl text-xl">No URL found</p>
+        </div>
       ) : (
-        <div>No URL found</div>
+        <></>
       )}
     </div>
   );

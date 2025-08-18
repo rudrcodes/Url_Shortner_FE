@@ -54,7 +54,7 @@ const ProfilePage = () => {
     //apply debouncing here , that is will not call the api on each input , only once after the last input
   };
 
-  const username = userData?.userData?.data?.username;
+  const username = userData?.userData?.data?.username?.toUpperCase();
   const userInitials = userData?.userData?.data?.username
     ?.split(" ")
     ?.map((word) => {
@@ -97,7 +97,10 @@ const ProfilePage = () => {
             deviceType === "desktop" ? "h-full" : ""
           } `}
         >
-          <input
+          <h1 className="lg:text-3xl md:text-2xl text-xl font-bold underline">
+            All Urls :{" "}
+          </h1>
+          {/* <input
             className={`p-2 border-b-2 w-[50%] ${
               deviceType === "desktop" ? "w-[50%]" : "w-full"
             }`}
@@ -108,26 +111,54 @@ const ProfilePage = () => {
 
               searchFunc(e.target.value);
             }}
-          />
+          /> */}
           {/* <select className="border rounded-md px-2 py-1">
             <option value="">Select filter</option>
             <option value="someOption">Some option</option>
             <option value="otherOption">Other option</option>
           </select> */}
           {allLinks?.map(
-            (link: { url: string; clickCount: number; _id: any }) => {
+            (link: {
+              originalUrl: string;
+              url: string;
+              clickCount: number;
+              _id: any;
+            }) => {
               return (
-                <div className="flex justify-between items-center w-[80%] py-3  border-b-1">
-                  <a
-                    className="text-xs hover:text-blue-500 hover:underline"
-                    href={link.url}
-                    target="_blank"
-                  >
-                    {link?.url?.length > 50
-                      ? link.url.substring(0, 20) + '...'
-                      : link.url}
-                  </a>
-                  <p className="text-xs">Clicked : {link.clickCount}</p>
+                <div className="flex justify-between items-start w-[80%] py-3 pl-4  border-b-1">
+                  <div className="flex justify-center ite`ms-start     flex-col">
+                    <ul style={{ listStyleType: "circle" }}>
+                      <li>
+                        <label className="text-xs text-black bg-white rounded-sm py-0.5 px-0.5 mr-1">
+                          Short Url :{" "}
+                        </label>
+                        <a
+                          className="text-xs hover:text-blue-500 hover:underline"
+                          href={link.url}
+                          target="_blank"
+                        >
+                          {link?.url?.length > 100
+                            ? link.url.substring(0, 80) + "..."
+                            : link.url}
+                        </a>
+                      </li>
+                      <li>
+                        <label className="text-xs text-black bg-white rounded-sm py-0.5 px-0.5 mr-1">
+                          Original Url :{" "}
+                        </label>
+                        <a
+                          className="text-xs hover:text-blue-500 hover:underline"
+                          href={link.originalUrl}
+                          target="_blank"
+                        >
+                          {link?.originalUrl?.length > 80
+                            ? link.originalUrl.substring(0, 100) + "..."
+                            : link.originalUrl}
+                        </a>
+                      </li>
+                    </ul>
+                  </div>
+                  {/* <p className="text-xs">Clicked : {link.clickCount}</p> */}
                 </div>
               );
             }
