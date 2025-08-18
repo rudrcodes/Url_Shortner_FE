@@ -1,8 +1,8 @@
 import { useDeviceType } from "@/hooks/useDeviceType";
 import { useLazyGetAllLinksQuery } from "@/store/API/other.api";
 import { updateToast } from "@/store/Features/toast.slice";
-import { debounce, useAppDispatch, useAppSelector } from "@/utils";
-import React, { useEffect, useState } from "react";
+import { useAppDispatch, useAppSelector } from "@/utils";
+import  { useEffect, useState } from "react";
 
 const ProfilePage = () => {
   const userData = useAppSelector((state) => state.user);

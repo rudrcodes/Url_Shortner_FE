@@ -58,7 +58,7 @@ const AuthPage = () => {
         dispatch(updateUserData({ userData: res?.data, isLoggedIn: true }));
       } else {
         //signUp
-        const res = await signUp({
+        const res :any= await signUp({
           username: creds.username,
           password: creds.password,
         });

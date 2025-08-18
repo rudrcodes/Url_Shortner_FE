@@ -1,4 +1,3 @@
-import React from "react";
 import { motion } from "motion/react";
 import { BsCopy } from "react-icons/bs";
 import { useAppDispatch } from "@/utils";

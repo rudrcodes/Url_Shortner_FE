@@ -1,4 +1,3 @@
-import React, { useState } from "react";
 import style from "./index.module.css";
 import { FaLongArrowAltLeft } from "react-icons/fa";
 
