@@ -13,7 +13,10 @@
     "paths": {
       "@/*": ["./src/*"]
     },
+
+    // 👇 added safe overrides
     "noUnusedLocals": false,
-    "noUnusedParameters": false
+    "noUnusedParameters": false,
+    "skipLibCheck": true
   }
 }
